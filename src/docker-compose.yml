@@ -1,0 +1,21 @@
+version: '2'
+
+# based off compose-sample-2, only we build nginx.conf into image
+# uses sample site from https://startbootstrap.com/template-overviews/agency/
+
+services:
+  web:
+    image: nginx:latest
+    ports:
+        - "80:80"
+    volumes:
+        - ../:/code
+        - ./site.conf:/etc/nginx/conf.d/default.conf
+    links:
+        - php
+  php:
+      build:
+        context: .
+        dockerfile: phpfpm.Dockerfile
+      volumes:
+          - ../:/code
